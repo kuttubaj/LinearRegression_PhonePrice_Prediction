@@ -51,4 +51,4 @@ input_df = pd.DataFrame([user_data])[feature_names]
 input_scaled = scaler.transform(input_df)
 prediction = model.predict(input_scaled)
 
-print(f"\nPredicted Price: {prediction[0]:.2f}")
+print(f"\nPredicted Price:{prediction[0]:.2f}")

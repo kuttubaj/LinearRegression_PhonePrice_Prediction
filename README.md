@@ -1,55 +1,101 @@
 # Phone Price Prediction
 
-This project predicts mobile phone prices using a Linear Regression model.
+Этот проект предсказывает цену мобильного телефона на основе его характеристик с помощью модели линейной регрессии.
 
-## Project Description
+## Что это за проект?
 
-The project includes training a Linear Regression model, saving it with pickle, making predictions from terminal input, and running a simple Flask web interface that displays a graph, metrics, and dataset samples.
+Это простой проект по машинному обучению. Программа принимает характеристики телефона, такие как RAM, память (ROM), размер экрана, камера и батарея, и на основе этих данных предсказывает примерную цену устройства.
 
-## Libraries
+## Что такое линейная регрессия?
 
-- pandas
-- scikit-learn
-- matplotlib
-- flask
+Линейная регрессия — это базовый алгоритм машинного обучения. Он изучает зависимость между входными данными (характеристиками телефона) и выходными данными (ценой), а затем использует эту зависимость для предсказания.
 
-## How to Run
+## Что можно сделать с этим проектом?
 
-Install libraries:
+С помощью этого проекта можно:
+- обучить модель
+- ввести свои характеристики телефона
+- получить предсказанную цену
+- использовать веб-интерфейс для работы с моделью
+
+## Структура проекта
+
+- train.py — обучение модели  
+- predict.py — предсказание через терминал  
+- app.py — запуск веб-приложения  
+- templates/index.html — веб-страница  
+- static/model_graph.png — график  
+- requirements.txt — необходимые библиотеки  
+
+## Требования
+
+Для запуска проекта необходимо установить Python. Скачать можно здесь:
+https://www.python.org/downloads/
+
+## Установка
+
+Открой терминал или командную строку и выполни:
+
 pip install -r requirements.txt
 
-Run the project:
+Это установит все необходимые библиотеки.
+
+## Как запустить проект
+
+Сначала нужно обучить модель:
+
 python train.py
+
+Этот шаг загружает и очищает данные, обучает модель и сохраняет её вместе с метриками.
+
+Затем можно запустить предсказание через терминал:
+
 python predict.py
+
+Программа попросит ввести значения, такие как:
+Ratings, RAM, ROM, Mobile_Size, Primary_Cam, Selfi_Cam, Battery_Power.
+
+После ввода значений программа выведет предсказанную цену.
+
+После этого можно запустить веб-приложение:
+
 python app.py
 
-Then open in browser:
+Затем открой в браузере:
+
 http://127.0.0.1:5000
 
-## Preprocessing
+## Как пользоваться сайтом
 
-- removed Unnamed: 0 column because it is only an index
-- converted Brand me into numeric dummy columns
-- converted numeric columns using pd.to_numeric(errors='coerce')
-- removed missing or invalid values using dropna()
+Открой сайт, прокрути до блока "Predict Price", введи характеристики телефона, нажми кнопку "Predict", после чего появится предсказанная цена.
 
-## Metrics
+## Что отображается на сайте?
 
-The model is evaluated using:
+На сайте отображаются:
+- метрики модели (R2, MAE, MSE, RMSE)
+- график сравнения реальных и предсказанных значений
+- примеры данных из датасета
+- описание обработки данных
+- форма для предсказания
+
+## Обработка данных (Preprocessing)
+
+Перед обучением модели данные очищаются:
+- удаляется колонка Unnamed: 0 (это просто индекс)
+- текстовые значения преобразуются в числовые
+- колонка Brand me преобразуется в числовые признаки (one-hot encoding)
+- удаляются строки с пропущенными или некорректными значениями с помощью dropna()
+
+## Качество модели
+
+Модель оценивается с помощью следующих метрик:
 - R2 Score
-- MAE (Mean Absolute Error)
-- MSE (Mean Squared Error)
-- RMSE (Root Mean Squared Error)
+- MAE (средняя абсолютная ошибка)
+- MSE (среднеквадратичная ошибка)
+- RMSE (корень из среднеквадратичной ошибки)
 
-## Files
+Результат модели средний, потому что линейная регрессия не может полностью учитывать сложные зависимости в данных.
 
-- train.py — model training
-- predict.py — terminal prediction
-- app.py — web application
-- templates/index.html — web page
-- static/model_graph.png — graph
-- requirements.txt — dependencies
+## Примечание
 
-## Notes
-
-The model shows moderate performance because Linear Regression does not fully capture complex relationships in the dataset.
+Этот проект является учебным и демонстрирует полный процесс работы системы машинного обучения: данные → обработка → обучение → предсказание → веб-интерфейс.

@@ -60,7 +60,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Phone Price Prediction</h1>
+    <h1>Phone Price Prediction Linear Regression</h1>
 
     <div class="section">
         <h2>Model Metrics</h2>
@@ -107,6 +107,24 @@
                 </tr>
             {% endfor %}
         </table>
+    </div>
+
+    <div class="section">
+    <h2>10 Samples from Used Columns Only</h2>
+    <table>
+        <tr>
+            {% for col in used_columns %}
+                <th>{{ col }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in used_sample_data %}
+            <tr>
+                {% for col in used_columns %}
+                    <td>{{ row[col] }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
     </div>
 
     <div class="section">

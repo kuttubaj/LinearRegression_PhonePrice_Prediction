@@ -26,6 +26,19 @@ df = pd.read_csv("final_dataset.csv")
 sample_data = df.head(10).to_dict(orient="records")
 columns = df.columns.tolist()
 
+used_columns = [
+    "Ratings",
+    "RAM",
+    "ROM",
+    "Mobile_Size",
+    "Primary_Cam",
+    "Selfi_Cam",
+    "Battery_Power",
+    "Price"
+]
+
+used_sample_data = df[used_columns].head(10).to_dict(orient="records")
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     prediction = None
@@ -72,7 +85,9 @@ def index():
         metrics=metrics,
         sample_data=sample_data,
         columns=columns,
-        preprocessing_info=preprocessing_info
+        preprocessing_info=preprocessing_info,
+        used_columns = used_columns,
+        used_sample_data = used_sample_data
     )
 
 if __name__ == "__main__":
