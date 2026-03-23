@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        input {
+            padding: 8px;
+            margin: 5px 0;
+            width: 220px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+            background: white;
+            display: block;
+            overflow-x: auto;
+        }
+        th, td {
+            border: 1px solid #999;
+            padding: 8px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        img {
+            max-width: 100%;
+            margin-top: 15px;
+        }
+        .result {
+            color: green;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+        .error {
+            color: red;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .section {
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Phone Price Prediction</h1>
+
+    <div class="section">
+        <h2>Model Metrics</h2>
+        <p>R2 Score: {{ "%.4f"|format(metrics.r2) }}</p>
+        <p>MAE: {{ "%.2f"|format(metrics.mae) }}</p>
+        <p>MSE: {{ "%.2f"|format(metrics.mse) }}</p>
+        <p>RMSE: {{ "%.2f"|format(metrics.rmse) }}</p>
+    </div>
+
+    <div class="section">
+        <h2>Graph</h2>
+        <img src="{{ url_for('static', filename='model_graph.png') }}" alt="Graph">
+    </div>
+
+    <div class="section">
+        <h2>Preprocessing Information</h2>
+
+        {% if preprocessing_info.removed_columns %}
+            <p><strong>Removed columns:</strong> {{ preprocessing_info.removed_columns|join(", ") }}</p>
+        {% else %}
+            <p><strong>Removed columns:</strong> None</p>
+        {% endif %}
+
+        <ul>
+            {% for note in preprocessing_info.notes %}
+                <li>{{ note }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>10 Samples from Final Dataset</h2>
+        <table>
+            <tr>
+                {% for col in columns %}
+                    <th>{{ col }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in sample_data %}
+                <tr>
+                    {% for col in columns %}
+                        <td>{{ row[col] }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>Predict Price</h2>
+        <form method="POST">
+            <input type="text" name="Ratings" placeholder="Ratings" required><br>
+            <input type="text" name="RAM" placeholder="RAM" required><br>
+            <input type="text" name="ROM" placeholder="ROM" required><br>
+            <input type="text" name="Mobile_Size" placeholder="Mobile_Size" required><br>
+            <input type="text" name="Primary_Cam" placeholder="Primary_Cam" required><br>
+            <input type="text" name="Selfi_Cam" placeholder="Selfi_Cam" required><br>
+            <input type="text" name="Battery_Power" placeholder="Battery_Power" required><br>
+            <button type="submit">Predict</button>
+        </form>
+
+        {% if prediction is not none %}
+            <div class="result">
+                Predicted Price: {{ "%.2f"|format(prediction) }}
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>
